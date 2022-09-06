@@ -233,6 +233,48 @@ LinkList SingleListHeadInsert(LinkList &L) {
 }
 
 /**
+ * 尾插法建立单链表
+ * @param L 需要操作的表
+ * @return 返回尾插法建立好的单链表
+ */
+LinkList SingleListTailInsert(LinkList &L){
+    int x;//这里假设我们需要操作的数据类型为int类
+    L=(LinkList) malloc(sizeof(LNode));
+    LNode *s,*r=L;//r为表尾指针
+    scanf("%d",&x);
+    while (x!=0){//输入0表示结束
+        s=(LNode *) malloc(sizeof(LNode));
+        s->data=x;
+        r->next=s;
+        r=s;//r指针永远执行表尾节点
+        scanf("%d",&x);
+    }
+    r->next= nullptr;//将尾节点的指针置为null
+    return L;
+}
+
+/**
+ * 用头插法来实现数据插入的逆置
+ * @param L 需要操作的链表
+ * @return 逆置插入完成后的链表
+ */
+LinkList SingleListInversionInsert(LinkList &L){
+    int x;
+    L=(LinkList) malloc(sizeof(LNode));
+    L->next= nullptr;
+    LNode *s,*r=L;//r用来表示头部节点
+    scanf("%d",&x);
+    while (x!=0){
+        s=(LNode *) malloc(sizeof(LNode));
+        s->data=x;
+        s->next=r;
+        r=s;
+        scanf("%d",&x);
+    }
+    return L;
+}
+
+/**
  * 带头节点的单链表按序插入操作
  * @param L 需要操作的单链表
  * @param index 需要插入的位置
@@ -301,6 +343,8 @@ bool InsertNextNode(LNode *p,int value){
     if(p== nullptr)
         return false;
     LNode *s=(LNode *)malloc(sizeof(LNode));
+    if(s== nullptr) //内存分配失败，返回null
+        return false;
     s->data=value;//用节点s保存元素value
     s->next=p->next;
     p->next=s;//将节点s连接到p之后
@@ -370,21 +414,59 @@ bool DeleteNode(LNode *p){
 
 //TODO 单链表查找相关的操作
 //TODO 按位查找
-
+/**
+ * 按位进行查找，返回第i个元素（带头结点）
+ * @param L 需要查找的链表
+ * @param index 需要查找的位置，类似于数组中的的下标索引
+ * @return 返回第i个元素（带头结点）
+ */
 LNode * GetElem(LinkList L,int index){
     if(index<0)
         return nullptr;
     LNode *p;   //指针p指向当前扫描到的节点
     int j=0;
     p=L;
+    //TODO 优化部分的代码
+    //int j=1;
+    //LNode *p=L->next;
+    //if(index-1==0)
+    //    return p;
+    //if(index<1)
+    //    return nullptr;
     while (p!= nullptr && j<index){
         p=p->next;
         j++;
     }
-
+    return p;
 }
 
 //TODO 按值查找
+/**
+ * 按照值进行查找
+ * @param L 需要查找的单链表
+ * @param selectValue 需要查找的值
+ * @return 返回数据域的值等于selectValue的节点，如果没有找到，返回的nullptr
+ */
+LNode * LocateElem(LinkList L,int selectValue){
+    LNode *p=L->next;
+    //从头节点的后一个节点开始寻找起走，即跳过头结点
+    while (p!= nullptr && p->data!=selectValue){
+        p=p->next;
+    }
+    return p;
+}
+
+//TODO 求单链表的长度
+int SingleLinkListLength(LinkList L){
+    int len=0;//统计单链表的长度
+    LNode *p=L;
+    while(p->next!= nullptr){
+        p=p->next;
+        len++;
+    }
+    return len;//带头节点
+    //return len-1;//不带头结点
+}
 
 /**
  * 单链表相关操作
