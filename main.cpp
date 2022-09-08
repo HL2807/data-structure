@@ -1,6 +1,6 @@
 #include <cstdio>
-#include "code/function/linear_table_function.h"
-#include "code/function/linear_table_pointer_function.h"
+#include "code/function/LinearList/linear_table_function.h"
+#include "code/function/LinearList/linear_table_pointer_function.h"
 
 
 int max(int x,int y)
